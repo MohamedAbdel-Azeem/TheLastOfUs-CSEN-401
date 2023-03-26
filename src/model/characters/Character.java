@@ -9,6 +9,11 @@ public abstract class Character {
 	private int currentHp;
 	private int attackDmg;
 	private Character target;
+	
+	public Character() {
+	
+	}
+	
 	public Character(String name, int maxHp, int attackDmg){
 		this.name=name;
 		this.maxHp=maxHp;
@@ -17,9 +22,6 @@ public abstract class Character {
 	}
 	public String getName() {
 		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
 	}
 	public Point getLocation() {
 		return location;
@@ -30,22 +32,19 @@ public abstract class Character {
 	public int getMaxHp() {
 		return maxHp;
 	}
-	public void setMaxHp(int maxHp) {
-		this.maxHp = maxHp;
-	}
 	public int getCurrentHp() {
 		return currentHp;
 	}
 	public void setCurrentHp(int currentHp) {
-		if (currentHp > maxHp)
-			return;
-		this.currentHp = currentHp;
+		if (currentHp < 0)
+			this.currentHp = 0;
+		else if (currentHp >= maxHp)
+			this.currentHp = maxHp;
+		else
+			this.currentHp = currentHp;
 	}
 	public int getAttackDmg() {
 		return attackDmg;
-	}
-	public void setAttackDmg(int attackDmg) {
-		this.attackDmg = attackDmg;
 	}
 	public Character getTarget() {
 		return target;
