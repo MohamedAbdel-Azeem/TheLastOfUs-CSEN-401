@@ -11,6 +11,10 @@ public class Fighter extends Hero{
 		
 	}
 	
+	public void useSpecial() throws GameActionException{
+		super.useSpecial();
+	}
+	
 	public void attack() throws GameActionException{
 		super.attack();	
 		if (this.isSpecialAction()){

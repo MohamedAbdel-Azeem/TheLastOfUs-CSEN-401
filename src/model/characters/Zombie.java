@@ -1,8 +1,10 @@
 package model.characters;
 
+import java.awt.Point;
+
 import exceptions.GameActionException;
 import exceptions.InvalidTargetException;
-
+import engine.Game;
 
 
 public class Zombie extends Character {
@@ -23,7 +25,21 @@ public class Zombie extends Character {
 			throw new InvalidTargetException("Target not in range!");
 		}
 		target.setCurrentHp(target.getCurrentHp() - this.getAttackDmg());
-		
+		if (target.getCurrentHp() == 0){
+			target.onCharacterDeath();
+		}
+		else{
+			target.defend(this);
+		}
+		target.defend(this);
+	}
+	
+	public void onCharacterDeath(){
+		if (this.getCurrentHp() == 0){
+			Game.zombies.remove(--ZOMBIES_COUNT);
+			Point location = this.getLocation();
+			Game.map[location.x][location.y] = null;
+		}
 	}
 
 }

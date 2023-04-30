@@ -27,7 +27,15 @@ public abstract class Character {
 		
 	
 	abstract public void attack() throws GameActionException;
-		
+	
+	public void  defend(Character c){
+		c.setCurrentHp(c.getCurrentHp() - this.attackDmg/2);
+		if (c.getCurrentHp() == 0){
+			c.onCharacterDeath();
+		}
+	}
+	
+	abstract public void onCharacterDeath();
 	
 	public boolean isAdjacent(){
 		Point point1 = this.location;
