@@ -1,11 +1,11 @@
 package exceptions;
 
 public class InvalidTargetException extends GameActionException {
-	
+
 	public InvalidTargetException() {
-		super();
+		// TODO Auto-generated constructor stub
 	}
-	public InvalidTargetException(String s) {
-		super(s);
+	public InvalidTargetException(String message) {
+		super(message);
 	}
 }

@@ -1,10 +1,13 @@
 package exceptions;
 
 public class NotEnoughActionsException extends GameActionException {
+
 	public NotEnoughActionsException() {
-		super();
+		// TODO Auto-generated constructor stub
 	}
-	public NotEnoughActionsException(String s) {
-		super(s);
+	
+	public NotEnoughActionsException(String message) {
+		super(message);
 	}
+
 }
