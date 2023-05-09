@@ -1,6 +1,8 @@
 package model.characters;
 
 import exceptions.GameActionException;
+import exceptions.InvalidTargetException;
+import exceptions.NotEnoughActionsException;
 
 
 public class Fighter extends Hero{
@@ -11,12 +13,17 @@ public class Fighter extends Hero{
 		
 	}
 	
-	public void attack() throws GameActionException{
+	public void useSpecial() throws GameActionException{
+		super.useSpecial();
+	}
+	
+	public void attack() throws InvalidTargetException, NotEnoughActionsException{
 		super.attack();	
 		if (this.isSpecialAction()){
 			this.setActionsAvailable(this.getActionsAvailable()+1);
 		}
 	}
+
 
 	
 

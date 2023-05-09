@@ -49,5 +49,10 @@ public class CharacterCell extends Cell {
 		this.isSafe = isSafe;
 	
 	}
+	
+	@Override
+	public String toString() {
+		return (character == null)? "" : character.toString();
+	}
 
 }
