@@ -2308,7 +2308,7 @@ public class M2PublicTests {
 				actionsAvailable);
 	}
 
-	@Test(timeout = 100000)
+	@Test(timeout = 1000)
 	public void testFighterDefenseUpdatesCurrentHP() throws ClassNotFoundException, NoSuchMethodException,
 			IllegalAccessException, InstantiationException, InvocationTargetException {
 
@@ -2357,10 +2357,7 @@ public class M2PublicTests {
 		Method getCurrentHpMethod = characterClass.getMethod("getCurrentHp");
 		int expectedHp = 40 - (attackDamage / 2);
 		int actualHp = (int) getCurrentHpMethod.invoke(character1);
-		//System.out.println("Test Print ----" + getCharacter() );
 		assertEquals(expectedHp, actualHp);
-		//System.out.println("Test Print2 ----" + attackDamage );
-
 	}
 
 	@Test(timeout = 1000)

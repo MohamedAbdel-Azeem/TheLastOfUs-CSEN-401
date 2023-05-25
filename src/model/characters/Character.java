@@ -2,110 +2,43 @@ package model.characters;
 
 import java.awt.Point;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import model.world.CharacterCell;
 import engine.Game;
-import exceptions.GameActionException;
+import engine.Main;
 import exceptions.InvalidTargetException;
 import exceptions.NotEnoughActionsException;
 
-
 public abstract class Character {
+
 	private String name;
-	private Point location;
 	private int maxHp;
 	private int currentHp;
+	private Point location;
 	private int attackDmg;
 	private Character target;
 
-	
-	public Character() {
-	}
-	
-
-	public Character(String name, int maxHp, int attackDmg) {
-		this.name=name;
+	public Character(String name, int maxHp, int attackDamage) {
+		this.name = name;
 		this.maxHp = maxHp;
+		this.attackDmg = attackDamage;
 		this.currentHp = maxHp;
-		this.attackDmg = attackDmg;
-	}
-		
-	
-	public void attack() throws InvalidTargetException, NotEnoughActionsException{
-		getTarget().setCurrentHp(target.getCurrentHp() - this.getAttackDmg());
-		target.defend(this);
-		if (target.getCurrentHp() == 0){
-			target.onCharacterDeath();
-			}
-	}
-	
-	public void  defend(Character c){
-		System.out.println(this.getName() + " I attacked " + c.getName());
-		c.setCurrentHp(c.getCurrentHp() - this.getAttackDmg()/2);
-		System.out.println(c.getCurrentHp());
-		if (c.getCurrentHp() == 0){
-			c.onCharacterDeath();
-		}
-	}
-	
-	public void onCharacterDeath(){
-		Point location = this.getLocation();
-		Game.map[location.x][location.y] = new CharacterCell(null);
-	}
-	
-	public boolean isAdjacent(){
-		Point point1 = this.location;
-		Point point2 = target.location;
-		
-		int x1 = point1.x;
-		int y1 = point1.y;
-		int x2 = point2.x;
-		int y2 = point2.y;
-
-		
-		if (x1==x2 && Math.abs(y1-y2) == 1)
-			return true;
-		if (y1==y2 && Math.abs(x1-x2) == 1)
-			return true;
-		if(Math.abs(x1-x2) == 1)
-			if( Math.abs(y1-y2) ==1)
-				return true;
-		return false;
-		
-	}
-	
-	public boolean isAdjacent(Character c){
-		Point point1 = this.location;
-		Point point2 = c.location;
-		
-		int x1 = point1.x;
-		int y1 = point1.y;
-		int x2 = point2.x;
-		int y2 = point2.y;
-		
-		if (x1==x2 && Math.abs(y1-y2) == 1)
-			return true;
-		if (y1==y2 && Math.abs(x1-x2) == 1)
-			return true;
-		if(Math.abs(x1-x2) == 1)
-			if( Math.abs(y1-y2) ==1)
-				return true;
-		return false;
-		
-	}
-	
-	
-	
-	
-	public Character getTarget() {
-		return target;
 	}
 
-	public void setTarget(Character target) {
-		this.target = target;
+	public int getCurrentHp() {
+		return currentHp;
 	}
-	
-	public String getName() {
-		return name;
+
+	public void setCurrentHp(int currentHp) {
+		if (currentHp <= 0) {
+			this.currentHp = 0;
+			onCharacterDeath();
+			
+		} else if (currentHp > maxHp) {
+			this.currentHp = maxHp;
+		} else
+			this.currentHp = currentHp;
 	}
 
 	public Point getLocation() {
@@ -116,26 +49,47 @@ public abstract class Character {
 		this.location = location;
 	}
 
+	public Character getTarget() {
+		return target;
+	}
+
+	public void setTarget(Character target) {
+		this.target = target;
+	}
+
+	public String getName() {
+		return name;
+	}
+
 	public int getMaxHp() {
 		return maxHp;
-	}
-
-	public int getCurrentHp() {
-		return currentHp;
-	}
-
-	public void setCurrentHp(int currentHp) {
-		if(currentHp < 0) 
-			this.currentHp = 0;
-		else if(currentHp > maxHp) 
-			this.currentHp = maxHp;
-		else 
-			this.currentHp = currentHp;
 	}
 
 	public int getAttackDmg() {
 		return attackDmg;
 	}
-	
+
+	public void attack() throws NotEnoughActionsException,
+			InvalidTargetException {
+		getTarget().setCurrentHp(getTarget().getCurrentHp() - getAttackDmg());
+		getTarget().defend(this);
+	}
+
+	public void defend(Character c) {
+		c.setCurrentHp(c.getCurrentHp() - getAttackDmg() / 2);
+	}
+
+	public void onCharacterDeath() {
+		Point p = this.getLocation();
+		
+		if (this instanceof Zombie) {
+			Game.zombies.remove(this);
+			Game.spawnNewZombie();
+		} else if (this instanceof Hero) {
+			Game.heroes.remove(this);
+		}
+		Game.map[p.x][p.y] = new CharacterCell(null);
+		Game.map[p.x][p.y].setVisible(true);
+	}
 
 }
