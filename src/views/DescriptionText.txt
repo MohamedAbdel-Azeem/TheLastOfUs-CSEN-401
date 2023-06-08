@@ -1,8 +1,8 @@
 # Game Description: 
 The player starts off in a 15x15 grid map with just one hero and 10 zombies. The player can only see the directly adjacent cells next to their pool of heroes. The player then keeps taking his turn trying to collect vaccines, and cure or kill zombies. The game ends when the player has collected and used all vaccines or when all heroes have been overwhelmed and defeated by the zombies.
 # Controls:
--  You can select the hero you want to control using Right click
--  You can select your target using Left Click 
+-  You can select the hero you want to control using Left click
+-  You can select your target using Right Click 
 -  Move using W A S D
 -  Attack using Q button 
 -  Cure using E button

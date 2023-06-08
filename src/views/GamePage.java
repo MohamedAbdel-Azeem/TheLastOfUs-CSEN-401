@@ -67,7 +67,6 @@ public class GamePage {
 	Image zombie = new Image(getClass().getResource("zombie.png").toExternalForm());
 	Image zombieAttacked = new Image(getClass().getResource("zombie-attacked.png").toExternalForm());
 	Image indicator = new Image(getClass().getResource("indicatorZombie.png").toExternalForm());
-	
 
 	
 	Image Bill = new Image(getClass().getResource("Bill.png").toExternalForm());
@@ -105,10 +104,12 @@ public class GamePage {
 		hud.getChildren().add(hudView);
 		hud.setPrefWidth(570.0);
 		Button endTurnButton = new Button("End Turn");
+		Button helpButton = new Button("Help");
 		endTurnButton.getStyleClass().add("endturn");
+		helpButton.getStyleClass().add("endturn");
+		helpButton.setPrefSize(160, endTurnButton.getHeight());
 		hud.getChildren().add(endTurnButton);
-		
-
+		hud.getChildren().add(helpButton);
 		hud.getChildren().add(heroesHud.getRoot());
 		
 		endTurnButton.setOnAction(event -> {
@@ -134,6 +135,13 @@ public class GamePage {
 			}
 		});
 		
+		helpButton.setOnAction(event -> {
+			AlertMessage help = new AlertMessage(map);
+			map.getChildren().add(help);
+		});
+		
+		AnchorPane.setBottomAnchor(helpButton, 170.0);
+		AnchorPane.setRightAnchor(helpButton, 200.0);
 		AnchorPane.setBottomAnchor(endTurnButton, 100.0);
 		AnchorPane.setRightAnchor(endTurnButton, 200.0);
 		onKeyPress();
@@ -150,11 +158,15 @@ public class GamePage {
 					map.getChildren().add(alert);
 			}
 			else {
+			Media Trapaudio = new Media(getClass().getResource("trap-sound.mp3").toExternalForm());
 			if (keyCode == KeyCode.W){
 				try{
 					selected.move(model.characters.Direction.RIGHT); // Right corresponds to Upwards on screen
 					updateMap();
 					if (selected.trapActivated){
+						Main.audioPlayer.stop();
+						Main.audioPlayer = new MediaPlayer(Trapaudio);
+						Main.audioPlayer.play();
 						DisappearingLabel trapNotification = new DisappearingLabel("Ouch, you stepped into a trap!", map);
 						StackPane.setAlignment(trapNotification, javafx.geometry.Pos.TOP_CENTER);
 						StackPane.setMargin(trapNotification, new javafx.geometry.Insets(35));
@@ -175,6 +187,9 @@ public class GamePage {
 					selected.move(model.characters.Direction.LEFT); // Left corresponds to Down on screen
 					updateMap();
 					if (selected.trapActivated){
+						Main.audioPlayer.stop();
+						Main.audioPlayer = new MediaPlayer(Trapaudio);
+						Main.audioPlayer.play();
 						DisappearingLabel trapNotification = new DisappearingLabel("Ouch, you stepped into a trap!", map);
 						StackPane.setAlignment(trapNotification, javafx.geometry.Pos.TOP_CENTER);
 						StackPane.setMargin(trapNotification, new javafx.geometry.Insets(35));
@@ -193,8 +208,15 @@ public class GamePage {
 				try{
 					selected.move(model.characters.Direction.DOWN); // Down corresponds to Left on screen
 					updateMap();
-					if (selected.trapActivated)
-						new DisappearingLabel("Ouch, you stepped into a trap!", map);
+					if (selected.trapActivated){
+						Main.audioPlayer.stop();
+						Main.audioPlayer = new MediaPlayer(Trapaudio);
+						Main.audioPlayer.play();
+						DisappearingLabel trapNotification = new DisappearingLabel("Ouch, you stepped into a trap!", map);
+						StackPane.setAlignment(trapNotification, javafx.geometry.Pos.TOP_CENTER);
+						StackPane.setMargin(trapNotification, new javafx.geometry.Insets(35));
+					}
+						
 				}
 				catch (Exception e){
 					if (e instanceof GameActionException){
@@ -210,6 +232,9 @@ public class GamePage {
 					selected.move(model.characters.Direction.UP); // UP corresponds to right on screen
 					updateMap();
 					if (selected.trapActivated){
+						Main.audioPlayer.stop();
+						Main.audioPlayer = new MediaPlayer(Trapaudio);
+						Main.audioPlayer.play();
 						DisappearingLabel trapNotification = new DisappearingLabel("Ouch, you stepped into a trap!", map);
 						StackPane.setAlignment(trapNotification, javafx.geometry.Pos.TOP_CENTER);
 						StackPane.setMargin(trapNotification, new javafx.geometry.Insets(35));
@@ -323,9 +348,7 @@ public class GamePage {
 					if (e instanceof GameActionException){
 						AlertMessage alert = new AlertMessage(e.getMessage(), map);
 						if (map.getChildren().size()<2)
-							map.getChildren().add(alert);
-						e.printStackTrace();
-					
+							map.getChildren().add(alert);		
 					}
 				}
 			}
