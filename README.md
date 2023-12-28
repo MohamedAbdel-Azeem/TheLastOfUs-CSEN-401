@@ -1,4 +1,4 @@
-# JavaFX Game
+# The Last Of Us Legacy JAVAFx Game
 
 This is a JavaFX game developed as a fun and interactive way to learn and apply JavaFX and OOP concepts. The game includes various features such as a menu, game actions, characters, collectibles, and more.
 You Can View a Video of the Game Play via [video](https://www.linkedin.com/posts/mohamed-abdelazeem-098086244_a-moment-of-pride-im-so-thrilled-and-activity-7086098033410531328-MpvJ?utm_source=share&utm_medium=member_desktop)
